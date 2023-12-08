@@ -12,7 +12,7 @@ from rest_framework.authentication import TokenAuthentication, BasicAuthenticati
 
 
 
-class Login(APIView):
+class LoginView(APIView):
     authentication_classes = [BasicAuthentication]
     def post(self, request):
         user = request.user
