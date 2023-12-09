@@ -12,7 +12,7 @@ from rest_framework.authentication import TokenAuthentication, BasicAuthenticati
 
 from .models import Category,Mahsulot
 
-from .serialzers import CategorySerializer
+from .serialzers import CategorySerializer, MahsulotSerializer
 
 
 
@@ -72,6 +72,17 @@ class GetData(APIView):
         except:
             return Response({'status':False}, status=status.HTTP_400_BAD_REQUEST)
 
+class Getimg(APIView):
+    def get(self, request,id:str):
+        try:
+            file = Mahsulot.objects.get(id=id)
+            img =file.img 
+            file = open(img.path, 'rb')
+            resp = FileResponse(img)
+            return resp
+        except:
+            return Response({'status':False}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CategoryView(APIView):
     def get(self, requset):
@@ -80,3 +91,11 @@ class CategoryView(APIView):
         for category in categories:
             category['img'] = 'https://mywebapi.pythonanywhere.com/api/v1/get/category/'+str(category['id'])
         return Response({'status':True,'categories':categories})
+
+class ProductView(APIView):
+    def get(self, request):
+        products = Mahsulot.objects.all()
+        products = MahsulotSerializer(products,many=True).data
+        for product in products:
+            product['img'] = 'https://mywebapi.pythonanywhere.com/api/v1/get/product/'+str(product['id'])
+        return Response({'status':True,'products':products},status=status.HTTP_200_OK) 
