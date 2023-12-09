@@ -93,9 +93,13 @@ class CategoryView(APIView):
         return Response({'status':True,'categories':categories})
 
 class ProductView(APIView):
-    def get(self, request):
-        products = Mahsulot.objects.all()
-        products = MahsulotSerializer(products,many=True).data
-        for product in products:
-            product['img'] = 'https://mywebapi.pythonanywhere.com/api/v1/get/product/'+str(product['id'])
-        return Response({'status':True,'products':products},status=status.HTTP_200_OK) 
+    def get(self, request,id:str):
+        try:
+            category = Category.objects.get(id = id)
+            products = Mahsulot.objects.filter(category=category)
+            products = MahsulotSerializer(products,many=True).data
+            for product in products:
+                product['img'] = 'https://mywebapi.pythonanywhere.com/api/v1/get/product/'+str(product['id'])
+            return Response({'status':True,'products':products},status=status.HTTP_200_OK) 
+        except:
+            return Response({'status':False},status=status.HTTP_400_BAD_REQUEST)
