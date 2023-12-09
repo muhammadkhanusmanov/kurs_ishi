@@ -55,3 +55,12 @@ class GetData(APIView):
             return resp
         except:
             return Response({'status':False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CategoryView(APIView):
+    def get(self, requset):
+        categories = Category.objects.all()
+        categories = CategorySerializer(categories, many = True).data
+        for category in categories:
+            category['img'] = 'https://mywebapi.pythonanywhere.com/api/v1/get/category/'+str(category['id'])
+        return Response({'status':True,'categories':categories})
