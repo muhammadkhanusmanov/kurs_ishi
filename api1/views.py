@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 
-from .models import Category
+from .models import Category,Mahsulot
 
 from .serialzers import CategorySerializer
 
@@ -43,7 +43,23 @@ class AdminView(APIView):
             return Response({'status':True},status=status.HTTP_201_CREATED)
         except:
             return Response({'status':False},status=status.HTTP_400_BAD_REQUEST)
-
+    '''add a new product'''
+    def put(self,request):
+        data = request.data
+        image = request.data.get('img', None)
+        try:
+            category = Category.objects.get(id=data.get('category'))
+            product = Mahsulot.objects.create(
+                name = data.get('name'),
+                category = category,
+                price = data.get('price'),
+                description = data.get('description'),
+                img = image
+            )
+            product.save()
+            return Response({'status': True},status=status.HTTP_201_CREATED)
+        except:
+            return Response({'status': False},status=status.HTTP_400_BAD_REQUEST)
 
 class GetData(APIView):
     def get(self, request,id:str):
