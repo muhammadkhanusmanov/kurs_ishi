@@ -8,5 +8,5 @@ urlpatterns = [
     path('get/category/<str:id>', GetData.as_view()),
     path('get/product/<str:id>',Getimg.as_view()),
     path('allcategory/',CategoryView.as_view()),
-    path('allproduct/',ProductView.as_view()),
+    path('products/bycategory/<str:id>',ProductView.as_view()),
 ]
