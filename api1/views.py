@@ -60,6 +60,16 @@ class AdminView(APIView):
             return Response({'status': True},status=status.HTTP_201_CREATED)
         except:
             return Response({'status': False},status=status.HTTP_400_BAD_REQUEST)
+        
+    '''delete a product by id'''
+    def delete(self, request,id:str):
+        try:
+            product = Mahsulot.objects.get(id=id)
+            product.delete()
+            return Response({'status':True},status=status.HTTP_200_OK)
+        except:
+            return Response({'status':False},status=status.HTTP_400_BAD_REQUEST)
+
 
 class GetData(APIView):
     def get(self, request,id:str):
