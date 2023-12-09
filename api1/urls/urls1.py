@@ -9,4 +9,5 @@ urlpatterns = [
     path('get/product/<str:id>',Getimg.as_view()),
     path('allcategory/',CategoryView.as_view()),
     path('products/bycategory/<str:id>',ProductView.as_view()),
-]
+    path('delete/product/<str:id>',AdminView.as_view())
+]   
