@@ -61,6 +61,8 @@ class AdminView(APIView):
         except:
             return Response({'status': False},status=status.HTTP_400_BAD_REQUEST)
         
+
+class DeleteView(APIView):
     '''delete a product by id'''
     def delete(self, request,id:str):
         try:
