@@ -63,6 +63,8 @@ class AdminView(APIView):
         
 
 class DeleteView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     '''delete a product by id'''
     def delete(self, request,id:str):
         try:
